@@ -13,11 +13,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
-public class MostraInfo {
+public class MostraInfo extends JFrame{
 	private int idPokemon;
 	private String nomePokemon;
 	private String descricaoDoPokemon;
-	private static String pathImagemPokemon="C:\\imagensPokemon\\";
+	private static String pathImagemPokemon="C:\\Users\\Del\\Downloads\\denilson\\projeto\\pokedex-master\\src\\imagensPokemon\\";
 	private String[] arrayTipo = new String[2];
 	private double alturaDoPokemon;
  	private String categoriaDoPokemon;
@@ -34,6 +34,13 @@ public class MostraInfo {
 	private int velocidadeDoPokemon;
 	
  	public MostraInfo() {
+ 		super("Informações do pokemon");
+		this.setSize(800,800);
+		this.setLocation(250,0);		
+		JPanel container = new JPanel();
+		container.setPreferredSize(new Dimension(300, 1200));
+		container.setLayout(null);
+		
 		//-------------------pegar do banco e colocar nessas variaveis--------------------
 		idPokemon=1;
 		nomePokemon="Bulbassauro";
@@ -51,9 +58,7 @@ public class MostraInfo {
 		spDefDoPokemon=65;
 		velocidadeDoPokemon=45;
 		//------------------------------------------------------------------------------
-		JFrame tela = new JFrame("Informações do Pokemon");
-		tela.setSize(800,800);
-		tela.setLocation(250,0);
+		
 		
 		JLabel labelNomeDoPokemon = new JLabel();
 		labelNomeDoPokemon.setBounds(250,-50,200,150);
@@ -72,8 +77,9 @@ public class MostraInfo {
 		
 		pathImagemPokemon=pathImagemPokemon+idPokemon+".png";
 		ImageIcon imagemDoPokemon = new ImageIcon(pathImagemPokemon);
+		imagemDoPokemon.setImage(imagemDoPokemon.getImage().getScaledInstance(350, 350, 100));
 		JLabel labelImagemDoPokemon = new JLabel(imagemDoPokemon);
-		labelImagemDoPokemon.setBounds(70, 50, 350, 350);
+		labelImagemDoPokemon.setBounds(20, 50, 350, 350);
 		
 		JTextArea descricaoPokemon = new JTextArea();
 		descricaoPokemon.setBounds(450,50,300,120);
@@ -95,7 +101,7 @@ public class MostraInfo {
 			eixoX+=110;
 		}
 		for(int i=0;i<arrayTipo.length;i++) {
-			tela.add(arrayBotoesTipo[i]);
+			container.add(arrayBotoesTipo[i]);
 		}
 		
 		JLabel labelFraquezas = new JLabel();
@@ -116,7 +122,7 @@ public class MostraInfo {
 			}
 		}
 		for(int i=0;i<arrayFraquezas.length;i++) {
-			tela.add(arrayBotoesFraquezas[i]);
+			container.add(arrayBotoesFraquezas[i]);
 		}		
 		
 		JLabel labelAltura = new JLabel();
@@ -165,48 +171,46 @@ public class MostraInfo {
 		labelHabilidadesDoPokemon.setText(habilidades);
 		labelHabilidadesDoPokemon.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		
-		JButton botaoEstatisticas = new JButton("Estatísticas");
-		botaoEstatisticas.setBounds(0, 400, 120, 20);
-		botaoEstatisticas.addActionListener(new ActionListener(){  
-			public void actionPerformed(ActionEvent e){  
-	            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-	            dataset.setValue(hpDoPokemon, "Status", "HP");
-	            dataset.setValue(ataqueDoPokemon, "Status", "Ataque");
-	            dataset.setValue(defesaDoPokemon, "Status", "Defesa");
-	            dataset.setValue(spAtqDoPokemon, "Status", "Sp.Atq");
-	            dataset.setValue(spDefDoPokemon, "Status", "Sp.Def");
-	            dataset.setValue(velocidadeDoPokemon, "Status", "Velocidade");
-	            JFreeChart chart = ChartFactory.createBarChart("Estatísticas", "", "Status", dataset,PlotOrientation.VERTICAL,false,true,false);
-	            CategoryPlot p = chart.getCategoryPlot();
-	            p.setRangeGridlinePaint(Color.RED);
-	            chart.getCategoryPlot().getRenderer(0).setSeriesPaint(0, Color.BLUE); 
-	            ChartFrame frame = new ChartFrame("Estatisticas do Pokemon",chart);
-	            frame.setSize(600,300);
-	            frame.setLocation(250,250);
-	            frame.setVisible(true);
+	   
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+	    dataset.setValue(hpDoPokemon, "Status", "HP");
+	    dataset.setValue(ataqueDoPokemon, "Status", "Ataque");
+	    dataset.setValue(defesaDoPokemon, "Status", "Defesa");
+	    dataset.setValue(spAtqDoPokemon, "Status", "Sp.Atq");
+	    dataset.setValue(spDefDoPokemon, "Status", "Sp.Def");
+	    dataset.setValue(velocidadeDoPokemon, "Status", "Velocidade");
 	            
-	        }  
-	    }); 
+	    JFreeChart chart = ChartFactory.createBarChart("Estatísticas", "", "Status", dataset,PlotOrientation.VERTICAL,false,true,false);
+	            
+	    CategoryPlot p = chart.getCategoryPlot();
+	    p.setRangeGridlinePaint(Color.RED);
+	    chart.getCategoryPlot().getRenderer(0).setSeriesPaint(0, Color.BLUE);         
+	    ChartPanel grafico = new ChartPanel(chart);
+	    grafico.setBounds(10,470,700,400);
+	    
+	    JScrollPane jsp = new JScrollPane(container);
+	   
+	    
+	    this.getContentPane().add(jsp);
+	    container.add(grafico);	            	         
+	    container.add(labelHabilidadesDoPokemon);
+	    container.add(labelHabilidades);
+	    container.add(labelPesoDoPokemon);
+	    container.add(labelPeso);
+	    container.add(labelCategoriaDoPokemon);
+	    container.add(labelCategoria);
+		container.add(labelAlturaDoPokemon);
+		container.add(labelAltura);
+		container.add(labelFraquezas);
+		container.add(labelTipo);
+		container.add(descricaoPokemon);
+		container.add(labelImagemDoPokemon);
+		container.add(labelNumeroDoPokemon);
+		container.add(labelNumero);
+		container.add(labelNomeDoPokemon);
 		
-		tela.add(botaoEstatisticas);
-		tela.add(labelHabilidadesDoPokemon);
-		tela.add(labelHabilidades);
-		tela.add(labelPesoDoPokemon);
-		tela.add(labelPeso);
-		tela.add(labelCategoriaDoPokemon);
-		tela.add(labelCategoria);
-		tela.add(labelAlturaDoPokemon);
-		tela.add(labelAltura);
-		tela.add(labelFraquezas);
-		tela.add(labelTipo);
-		tela.add(descricaoPokemon);
-		tela.add(labelImagemDoPokemon);
-		tela.add(labelNumeroDoPokemon);
-		tela.add(labelNumero);
-		tela.add(labelNomeDoPokemon);
-		
-		tela.setLayout(null);
-		tela.setVisible(true);
+		//this.setLayout(null);
+		this.setVisible(true);
 	}
 	
 
