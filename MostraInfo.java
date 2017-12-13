@@ -31,12 +31,9 @@ public class MostraInfo extends JFrame{
 	private int defesaDoPokemon;
 	private int spAtqDoPokemon;
 	private int spDefDoPokemon;
-	private int velocidadeDoPokemon;
-	
+	private int velocidadeDoPokemon;	
  	public MostraInfo() {
- 		super("Informações do pokemon");
-		this.setSize(800,800);
-		this.setLocation(250,0);		
+ 		super("Informações do pokemon");		
 		JPanel container = new JPanel();
 		container.setPreferredSize(new Dimension(300, 1200));
 		container.setLayout(null);
@@ -209,7 +206,9 @@ public class MostraInfo extends JFrame{
 		container.add(labelNumero);
 		container.add(labelNomeDoPokemon);
 		
-		//this.setLayout(null);
+
+		this.setSize(800,800);
+		this.setLocation(250,0);		
 		this.setVisible(true);
 	}
 	
