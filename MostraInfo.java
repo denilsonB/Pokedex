@@ -1,12 +1,17 @@
-package Pokedex;
+package gui;
 
 import javax.swing.*;
+
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+
+import pokedex.ListaDePokemons;
+import pokedex.Pokemon;
+
 import org.jfree.chart.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,8 +19,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MostraInfo extends JFrame{
+public class MostraInfo{
 	private JPanel container;
+        private JFrame tela;        
 	private int idPokemon,idEvolucao;
 	private String nomePokemon,descricaoDoPokemon,categoriaDoPokemon;
 	private static String pathImagemPokemon="C:\\Users\\Del\\Downloads\\denilson\\projeto\\pokedex-master\\src\\imagensPokemon\\";
@@ -29,12 +35,11 @@ public class MostraInfo extends JFrame{
  	private JButton[] arrayBotoesTipo = new JButton[2];
 	private JButton[] arrayBotoesFraquezas = new JButton[6];
 	private int hpDoPokemon,ataqueDoPokemon,defesaDoPokemon,spAtqDoPokemon,spDefDoPokemon,velocidadeDoPokemon;	
-	private ArrayList<Pokemon> pokemonLista;
+	private ListaDePokemons pokemonLista;
 	
-	public MostraInfo(int id,ArrayList<Pokemon> pokemonLista) {
- 		super("Informações do pokemon");		
- 		this.setVisible(false);
- 		Pokemon poke = this.pokemonLista.get(id-1);
+	public MostraInfo(int id,ListaDePokemons pokemonLista) {
+                tela = new JFrame("InformaÃ§Ãµes do Pokemon");
+ 		Pokemon poke = pokemonLista.getLista().get(id-1);
  		this.pokemonLista=pokemonLista;
  		
  		System.out.println(poke.getNome());
@@ -70,7 +75,7 @@ public class MostraInfo extends JFrame{
 		
 		JLabel labelNumero = new JLabel();
 		labelNumero.setBounds(470,0,50,50);
-		labelNumero.setText("Nº");
+		labelNumero.setText("N");
 		labelNumero.setFont(new Font("Courier New", Font.BOLD, 25));
 		
 		JLabel labelNumeroDoPokemon = new JLabel();
@@ -170,7 +175,7 @@ public class MostraInfo extends JFrame{
 		}
 		
 		JLabel labelHabilidadesDoPokemon = new JLabel();
-		labelHabilidadesDoPokemon.setBounds(680,215,150,100);
+		labelHabilidadesDoPokemon.setBounds(680,215,300,300);
 		labelHabilidadesDoPokemon.setText(habilidades);
 		labelHabilidadesDoPokemon.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		
@@ -194,7 +199,7 @@ public class MostraInfo extends JFrame{
 	    dataset.setValue(spDefDoPokemon, "Status", "Sp.Def");
 	    dataset.setValue(velocidadeDoPokemon, "Status", "Velocidade");
 	            
-	    JFreeChart chart = ChartFactory.createBarChart("Estatísticas", "", "Status", dataset,PlotOrientation.VERTICAL,false,true,false);
+	    JFreeChart chart = ChartFactory.createBarChart("EstatÃ­sticas", "", "Status", dataset,PlotOrientation.VERTICAL,false,true,false);
 	            
 	    CategoryPlot p = chart.getCategoryPlot();
 	    p.setRangeGridlinePaint(Color.RED);
@@ -205,7 +210,7 @@ public class MostraInfo extends JFrame{
 	    JScrollPane jsp = new JScrollPane(container);
 	   
 	    
-	    this.getContentPane().add(jsp);
+	    tela.getContentPane().add(jsp);
 	    container.add(grafico);	            	         
 	    container.add(labelHabilidadesDoPokemon);
 	    container.add(labelHabilidades);
@@ -224,164 +229,167 @@ public class MostraInfo extends JFrame{
 		container.add(labelNomeDoPokemon);
 		boolean desativa = this.mostraEvolucoes(idEvolucao);
 		
-		this.setSize(870,800);
-		this.setLocation(250,0);		
-		this.setVisible(true);
+		tela.setSize(870,800);
+		tela.setLocation(250,0);		
+		tela.setVisible(true);
 	}
 	public boolean mostraEvolucoes(int idEvolucao) {
 		int idEvolucaoEx=1;
 		Pokemon poke2 = new Pokemon();
 		if(this.idPokemon!=1) {
-			poke2 = pokemonLista.get(this.idPokemon-1);
+			poke2 = pokemonLista.getLista().get(this.idPokemon-1);
 			idEvolucaoEx=poke2.getIdEvolucao();
 		}
 		System.out.println(idEvolucaoEx);
 		if(this.idPokemon==1 || idEvolucaoEx!=this.idPokemon) {
 			System.out.println("entrou qui");
-			JLabel labelImagemDoPokemon = retornaImagemEvolucao(this.idPokemon);
-			labelImagemDoPokemon.setBounds(-60, 950, 350, 350);
-			container.add(labelImagemDoPokemon);
+			ImageIcon labelImagemDoPokemon = retornaImagemEvolucao(this.idPokemon);
+			JButton botaoPokemon1 = new JButton(labelImagemDoPokemon);
+                        botaoPokemon1.setBounds(-50, 950, 350, 350);
+                        botaoPokemon1.setContentAreaFilled(false);
+                        botaoPokemon1.setBorderPainted(false);
+			container.add(botaoPokemon1);
 			
-			JButton botaoPokemon1 = retornaBotao(this.nomePokemon,this.idPokemon);			
-			botaoPokemon1.setBounds(50,950,130,25);
 			botaoPokemon1.addActionListener(new ActionListener(){  
 				public void actionPerformed(ActionEvent e){  
-					MostraInfo t2 = new MostraInfo(idPokemon,pokemonLista);
+                                    tela.setVisible(false);
+                                    MostraInfo t2 = new MostraInfo(idPokemon,pokemonLista);
+                                        
 				}  
 		    });  
-			container.add(botaoPokemon1);
 		}else {
 			int idEvolucaoEx2=2;
-			Pokemon poke3 = pokemonLista.get(this.idPokemon-2);
+			Pokemon poke3 = pokemonLista.getLista().get(this.idPokemon-2);
 			idEvolucaoEx2=poke3.getIdEvolucao();
 			if(idEvolucaoEx2==idEvolucaoEx-1) {
-				JLabel labelImagemDoPokemon = retornaImagemEvolucao(idEvolucaoEx2-1);
-				labelImagemDoPokemon.setBounds(-60, 950, 350, 350);		
-				container.add(labelImagemDoPokemon);			
-				JButton botaoPokemon1 = retornaBotao(poke3.getNome(),poke3.getId());				
-				botaoPokemon1.setBounds(50,950,130,25);
-				Pokemon pokea = pokemonLista.get(this.idPokemon-2);
-				botaoPokemon1.addActionListener(new ActionListener(){  
+				ImageIcon imagemDoPokemon = retornaImagemEvolucao(idEvolucaoEx2-1);
+				JButton botaoPokemon  = new JButton(imagemDoPokemon);
+                                botaoPokemon.setBounds(-60, 950, 350, 350);					
+				Pokemon pokea = pokemonLista.getLista().get(this.idPokemon-2);
+                                botaoPokemon.addActionListener(new ActionListener(){  
 					public void actionPerformed(ActionEvent e){  
+                                                tela.setVisible(false);
 						MostraInfo t2 = new MostraInfo(pokea.getId(),pokemonLista);
 			        }  
 			    });  
-				container.add(botaoPokemon1);
-				JLabel labelImagemDoPokemon2 = retornaImagemEvolucao(idEvolucaoEx-1);
-				labelImagemDoPokemon2.setBounds(230, 950, 350, 350);
-				container.add(labelImagemDoPokemon2);
-				poke2 = pokemonLista.get(this.idPokemon-1);
-				JButton botaoPokemon2 = retornaBotao(poke2.getNome(),poke2.getId());		
-				botaoPokemon2.setBounds(350,950,130,25);
+                                botaoPokemon.setContentAreaFilled(false);
+                                botaoPokemon.setBorderPainted(false);                                
+				container.add(botaoPokemon);
+				ImageIcon imagemDoPokemon2 = retornaImagemEvolucao(idEvolucaoEx-1);
+				JButton botaoPokemon2 = new JButton(imagemDoPokemon2);
+                                botaoPokemon2.setBounds(230, 950, 350, 350);
+			//	poke2 = pokemonLista.get(this.idPokemon-1);
 				int aux = idEvolucaoEx-1;
 				botaoPokemon2.addActionListener(new ActionListener(){  
 					public void actionPerformed(ActionEvent e){  
 						MostraInfo t2 = new MostraInfo(aux,pokemonLista);
 			        }  
-			    });  
+			    }); 
+                                botaoPokemon2.setContentAreaFilled(false);
+                                botaoPokemon2.setBorderPainted(false);                                
 				container.add(botaoPokemon2);
-				JLabel labelImagemDoPokemon3 = retornaImagemEvolucao(this.idPokemon);
-				labelImagemDoPokemon3.setBounds(545, 950, 350, 350);
-				container.add(labelImagemDoPokemon3);	
-				
-				JButton botaoPokemon3 = retornaBotao(this.nomePokemon,this.idPokemon);			
-				botaoPokemon3.setBounds(650,950,130,25);
+				ImageIcon imagemDoPokemon3 = retornaImagemEvolucao(this.idPokemon);
+				JButton botaoPokemon3 = new JButton(imagemDoPokemon3);
+                                botaoPokemon3.setBounds(545, 950, 350, 350);
 				botaoPokemon3.addActionListener(new ActionListener(){  
-					public void actionPerformed(ActionEvent e){  
+					public void actionPerformed(ActionEvent e){
+                                                tela.setVisible(false);
 						MostraInfo t2 = new MostraInfo(idPokemon,pokemonLista);  
 			        }  
 			    });
+                            botaoPokemon3.setContentAreaFilled(false);
+                            botaoPokemon3.setBorderPainted(false);                                
 				container.add(botaoPokemon3);
 			}else {
-				JLabel labelImagemDoPokemon = retornaImagemEvolucao(idEvolucaoEx-1);
-				labelImagemDoPokemon.setBounds(-60, 950, 350, 350);		
-				container.add(labelImagemDoPokemon);
+				ImageIcon imagemDoPokemon = retornaImagemEvolucao(idEvolucaoEx-1);
+				JButton botaoPokemon = new JButton(imagemDoPokemon);
+                                botaoPokemon.setBounds(-60, 950, 350, 350);		
 				
-				JButton botaoPokemon1 = retornaBotao(poke2.getNome(),poke2.getId());				
-				botaoPokemon1.setBounds(50,950,130,25);
 				int aux = idEvolucaoEx-1;
-				botaoPokemon1.addActionListener(new ActionListener(){  
-					public void actionPerformed(ActionEvent e){  
+				botaoPokemon.addActionListener(new ActionListener(){  
+					public void actionPerformed(ActionEvent e){
+                                                tela.setVisible(false);
 						MostraInfo t2 = new MostraInfo(aux,pokemonLista);  
 			        }  
 			    });  
-				container.add(botaoPokemon1);
-				JLabel labelImagemDoPokemon2 = retornaImagemEvolucao(this.idPokemon);
-				labelImagemDoPokemon2.setBounds(230, 950, 350, 350);
-				container.add(labelImagemDoPokemon2);
+                                botaoPokemon.setContentAreaFilled(false);
+                                botaoPokemon.setBorderPainted(false);	
+				container.add(botaoPokemon);
+				ImageIcon imagemDoPokemon2 = retornaImagemEvolucao(this.idPokemon);
+				JButton botaoPokemon2 = new JButton(imagemDoPokemon2);
+                                botaoPokemon2.setBounds(230, 950, 350, 350);
 				
-				JButton botaoPokemon2 = retornaBotao(this.nomePokemon,this.idPokemon);			
-				botaoPokemon2.setBounds(350,950,130,25);
 				botaoPokemon2.addActionListener(new ActionListener(){  
 					public void actionPerformed(ActionEvent e){  
-						MostraInfo t2 = new MostraInfo(idPokemon,pokemonLista);  
+                                            tela.setVisible(false);
+                                            MostraInfo t2 = new MostraInfo(idPokemon,pokemonLista);  
 			        }  
 			    });  
+                                botaoPokemon2.setContentAreaFilled(false);
+                                botaoPokemon2.setBorderPainted(false);                                
 				container.add(botaoPokemon2);
 			}
 						
 			if(idEvolucao!=0) {
-				poke3 = pokemonLista.get(idEvolucao);
-				JLabel labelImagemDoPokemon3 = retornaImagemEvolucao(idEvolucao);
-				labelImagemDoPokemon3.setBounds(545, 950, 350, 350);
-				container.add(labelImagemDoPokemon3);
-				JButton botaoPokemon3 = retornaBotao(poke3.getNome(),poke3.getId());			
-				botaoPokemon3.setBounds(650,950,130,25);
+				ImageIcon imagemDoPokemon3 = retornaImagemEvolucao(idEvolucao);
+				JButton botaoPokemon3 = new JButton(imagemDoPokemon3);
+                                botaoPokemon3.setBounds(545, 950, 350, 350);
 				int aux = idEvolucao;
 				botaoPokemon3.addActionListener(new ActionListener(){  
 					public void actionPerformed(ActionEvent e){  
-						MostraInfo t2 = new MostraInfo(aux,pokemonLista);  
+                                            tela.setVisible(false);	
+                                            MostraInfo t2 = new MostraInfo(aux,pokemonLista);  
 			        }  
-			    });  
+			    });   
+                                botaoPokemon3.setContentAreaFilled(false);
+                                botaoPokemon3.setBorderPainted(false);                                
 				container.add(botaoPokemon3);	
 				idEvolucao=500;
 			}
 		}
 		if(idEvolucao==this.idPokemon+1) {
 			System.out.println("entrou qui2");
-			JLabel labelImagemDoPokemon2 = retornaImagemEvolucao(idEvolucao);
-			labelImagemDoPokemon2.setBounds(230, 950, 350, 350);
-			container.add(labelImagemDoPokemon2);	
+			ImageIcon imagemDoPokemon2 = retornaImagemEvolucao(idEvolucao);
+			JButton botaoPokemon2 = new JButton(imagemDoPokemon2);
+                        botaoPokemon2.setBounds(230, 950, 350, 350);	
 			
-			JButton botaoPokemon2 = retornaBotao("Ivissauro",this.idEvolucao);//poke2.getNome();			
-			botaoPokemon2.setBounds(350,950,130,25);
 			int aux = idEvolucao;
 			botaoPokemon2.addActionListener(new ActionListener(){  
 				public void actionPerformed(ActionEvent e){  
-					MostraInfo t2 = new MostraInfo(aux,pokemonLista);  
+                                    tela.setVisible(false);
+                                    MostraInfo t2 = new MostraInfo(aux,pokemonLista);  
 		        }  
-		    });  
+		    });
 			container.add(botaoPokemon2);
-			Pokemon poke3 = pokemonLista.get(idEvolucao);
+			Pokemon poke3 = pokemonLista.getLista().get(idEvolucao);
 			idEvolucaoEx=poke3.getIdEvolucao();	
 			if(idEvolucaoEx==idEvolucao+1) {
-				JLabel labelImagemDoPokemon3 = retornaImagemEvolucao(idEvolucaoEx);
-				labelImagemDoPokemon3.setBounds(545, 950, 350, 350);
-				container.add(labelImagemDoPokemon3);		
+				ImageIcon labelImagemDoPokemon3 = retornaImagemEvolucao(idEvolucaoEx);
+				JButton botaoPokemon3 = new JButton(labelImagemDoPokemon3);
+                                botaoPokemon3.setBounds(545, 950, 350, 350);	
 				
-				JButton botaoPokemon3 = retornaBotao(poke3.getNome(),poke3.getId()	);			
-				botaoPokemon3.setBounds(650,950,130,25);
 				int aux2 = idEvolucaoEx;
 				botaoPokemon3.addActionListener(new ActionListener(){  
 					public void actionPerformed(ActionEvent e){  
-						MostraInfo t2 = new MostraInfo(aux2,pokemonLista);  
+                                            tela.setVisible(false);
+                                            MostraInfo t2 = new MostraInfo(aux2,pokemonLista);  
 			        }  
 			    });
+                                botaoPokemon3.setContentAreaFilled(false);
+                                botaoPokemon3.setBorderPainted(false);
 				container.add(botaoPokemon3);
 				idEvolucao=500;
 			}
-		}
-		return false;
+		
 	}
-	public JLabel retornaImagemEvolucao(int num) {
+            return false;
+        
+        }
+	public ImageIcon retornaImagemEvolucao(int num) {
 		ImageIcon imagemDoPokemon = new ImageIcon(pathImagemPokemon+(num)+".png");
 		imagemDoPokemon.setImage(imagemDoPokemon.getImage().getScaledInstance(250, 250, 100));
-		JLabel labelImagemDoPokemon = new JLabel(imagemDoPokemon);
-		return labelImagemDoPokemon;
+		return imagemDoPokemon;
 	}
-	public JButton retornaBotao(String nomePokemon,int id) {
-		JButton botao = new JButton(nomePokemon+"-"+id);
-		return botao;
-	}
+
 
 }
