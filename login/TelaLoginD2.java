@@ -1,4 +1,4 @@
-package gui;
+package gui.login;
 import connections.UsuarioDAO;
 import gui.TelaInicial;
 import java.awt.Font;
@@ -18,18 +18,18 @@ public class TelaLoginD2{
         labelLogin.setFont(new Font("Times New Roman",Font.BOLD,30));
 
         JLabel labelUsuario = new JLabel("Usuario:");
-        labelUsuario.setBounds(100,112,150,150);
+        labelUsuario.setBounds(90,112,150,150);
         labelUsuario.setFont(new Font("Times New Roman",Font.BOLD,20));
 
         JLabel labelSenha = new JLabel("Senha:");
-        labelSenha.setBounds(113,150,150,150);
+        labelSenha.setBounds(103,150,150,150);
         labelSenha.setFont(new Font("Times New Roman",Font.BOLD,20));        
         
         JTextField caixaLogin = new JTextField();
-        caixaLogin.setBounds(185,180,140,20);
+        caixaLogin.setBounds(185,180,180,20);
         
         JPasswordField  caixaSenha = new JPasswordField ();
-        caixaSenha.setBounds(185,215,140,20);      
+        caixaSenha.setBounds(185,215,180,20);      
         
         JButton botaoLogin = new JButton("Entrar");
         botaoLogin.setBounds(275,280,85,22);        
@@ -47,13 +47,11 @@ public void actionPerformed(ActionEvent e){
     }
         if(senha.equals(doBanco[0])){
             try {
-                TelaInicial tela = new TelaInicial(doBanco[1]);
+                TelaInicial tela = new TelaInicial();
                 telaLogin.dispose();
             } catch (SQLException ex) {
                 System.out.println("DEU ERRO2");
             }
-        }else{
-            System.out.println("senha incorreta");
         }
         
         }  
