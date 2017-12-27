@@ -1,4 +1,4 @@
-package gui;
+    package gui;
 
 import javax.swing.*;
 
@@ -174,7 +174,7 @@ public class MostraInfo{
 		}
 		
 		JLabel labelHabilidadesDoPokemon = new JLabel();
-		labelHabilidadesDoPokemon.setBounds(680,215,300,300);
+		labelHabilidadesDoPokemon.setBounds(655,115,300,300);
 		labelHabilidadesDoPokemon.setText(habilidades);
 		labelHabilidadesDoPokemon.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		
@@ -369,7 +369,7 @@ public class MostraInfo{
 			container.add(botaoPokemon2);
 			Pokemon poke3 = pokemonLista.getLista().get(idEvolucao);
 			idEvolucaoEx=poke3.getIdEvolucao();	
-			if(idEvolucaoEx==idEvolucao+1) {
+			if(idEvolucaoEx!=0) {
 				//ImageIcon labelImagemDoPokemon3 = retornaImagemEvolucao(idEvolucaoEx);
                                 Image imagemDoPokemon3 = imagens.setNewImg(idEvolucaoEx, 250, 250);
 				JButton botaoPokemon3 = new JButton((Icon) imagemDoPokemon3);
