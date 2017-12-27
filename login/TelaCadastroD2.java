@@ -1,4 +1,4 @@
-package gui;
+package gui.login;
 
 import connections.UsuarioDAO;
 import java.awt.Color;

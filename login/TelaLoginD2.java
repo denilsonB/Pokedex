@@ -1,4 +1,4 @@
-package gui;
+package gui.login;
 import connections.UsuarioDAO;
 import gui.TelaInicial;
 import java.awt.Font;
@@ -33,7 +33,7 @@ public class TelaLoginD2{
         
         JButton botaoLogin = new JButton("Entrar");
         botaoLogin.setBounds(275,280,85,22);        
-        botaoLogin.addActionListener(new ActionListener(){  
+botaoLogin.addActionListener(new ActionListener(){  
 public void actionPerformed(ActionEvent e){  
         UsuarioDAO conexao = new UsuarioDAO();
         
@@ -47,8 +47,8 @@ public void actionPerformed(ActionEvent e){
     }
         if(senha.equals(doBanco[0])){
             try {
-                TelaInicial tela = new TelaInicial();
-                telaLogin.setVisible(false);
+                TelaInicial tela = new TelaInicial(doBanco[1]);
+                telaLogin.dispose();
             } catch (SQLException ex) {
                 System.out.println("DEU ERRO2");
             }
@@ -61,7 +61,7 @@ public void actionPerformed(ActionEvent e){
         botaoCadastrar.setBounds(80,280,100,22);          
         botaoCadastrar.addActionListener(new ActionListener(){  
 public void actionPerformed(ActionEvent e){  
-        telaLogin.setVisible(false);
+        telaLogin.dispose();
         TelaCadastroD2 t2 = new TelaCadastroD2();
         }  
     });        
@@ -84,4 +84,5 @@ public void actionPerformed(ActionEvent e){
     public static void main(String[] args) {
         TelaLoginD2 d = new TelaLoginD2();
     }
+    
 }
