@@ -52,6 +52,8 @@ public void actionPerformed(ActionEvent e){
             } catch (SQLException ex) {
                 System.out.println("DEU ERRO2");
             }
+        }else{
+            System.out.println("senha incorreta");
         }
         
         }  
