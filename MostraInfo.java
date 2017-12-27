@@ -36,12 +36,12 @@ public class MostraInfo{
 	private JButton[] arrayBotoesFraquezas = new JButton[6];
 	private int hpDoPokemon,ataqueDoPokemon,defesaDoPokemon,spAtqDoPokemon,spDefDoPokemon,velocidadeDoPokemon;	
 	private ListaDePokemons pokemonLista;
-	private Imagem imagens;
+	private Imagem imagens = new Imagem();
 	public MostraInfo(int id,ListaDePokemons pokemonLista) {
                 tela = new JFrame("Informações do Pokemon");
  		Pokemon poke = pokemonLista.getLista().get(id-1);
  		this.pokemonLista=pokemonLista;
- 		
+ 		imagens = new Imagem();
  		System.out.println(poke.getNome());
 		container = new JPanel();
 		container.setPreferredSize(new Dimension(300, 1300));
@@ -83,9 +83,9 @@ public class MostraInfo{
 		labelNumeroDoPokemon.setBounds(505,0,50,50);
 		labelNumeroDoPokemon.setFont(new Font("Times New Roman", Font.BOLD, 25));
 		labelNumeroDoPokemon.setText(""+idPokemon);
-		
+                
 		Image imagemDoPokemon = imagens.setNewImg(idPokemon, 350, 350);
-		JLabel labelImagemDoPokemon = new JLabel((Icon) imagemDoPokemon);
+		JLabel labelImagemDoPokemon = new JLabel(new ImageIcon(imagemDoPokemon));
 		labelImagemDoPokemon.setBounds(40, 50, 350, 350);
 		
 		JTextArea descricaoPokemon = new JTextArea();
